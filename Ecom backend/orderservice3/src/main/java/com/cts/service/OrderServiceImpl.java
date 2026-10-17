@@ -353,11 +353,6 @@ public class OrderServiceImpl implements OrderService {
 	        cartItemRepository.save(item);
 	    }
 
-	    // 🔁 (Optional repeat — can be removed if above loop handles stock)
-	    for (CartItem item : cartItems) {
-	        productFC.updateStock(item.getProductId(), item.getQuantity());
-	    }
-
 	    logger.info("Cart order cancelled successfully: {}", orderId);
 
 	    // 🧾 Build response
@@ -967,9 +962,6 @@ public class OrderServiceImpl implements OrderService {
 	    
 	    
 
-
-	    // 🔹 Step 6: Save order
-	    cartOrderRepository.save(order);
 
 	    // 🔹 Step 7: Clear cart after order placement
 	    cartFC.clearCart(userId);
