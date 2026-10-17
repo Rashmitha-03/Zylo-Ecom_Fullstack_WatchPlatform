@@ -19,7 +19,7 @@ The frontend calls the gateway at `http://localhost:8003`. The gateway routes re
 
 ## Requirements
 
-- JDK 21 recommended. The gateway module targets Java 21; most other modules target Java 17.
+- JDK 25 is required for all backend services.
 - MySQL running locally.
 - The Maven wrapper (`mvnw.cmd`) is included in each service, so a separate Maven installation is not required.
 
