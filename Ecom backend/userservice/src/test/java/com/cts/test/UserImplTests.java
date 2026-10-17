@@ -1,6 +1,7 @@
 package com.cts.test;
 
 import com.cts.dto.*;
+import com.cts.client.CartServiceClient;
 import com.cts.entity.User;
 import com.cts.enums.Role;
 
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -35,6 +37,7 @@ class UserImplTests {
     @Mock private UserRepository userRepository;
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private ModelMapper modelMapper;
+    @Mock private CartServiceClient cartServiceClient;
 
     private User user;
 
@@ -81,6 +84,8 @@ class UserImplTests {
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
         when(modelMapper.map(request, User.class)).thenReturn(newUser);
         when(passwordEncoder.encode(request.getPassword())).thenReturn("encoded");
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(cartServiceClient.createCart(anyInt())).thenReturn(ResponseEntity.ok("Cart created"));
 
         RegisterResponse response = userService.registerUser(request);
 
@@ -212,6 +217,7 @@ class UserImplTests {
     @Test
     void testDeleteUser() {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.save(user)).thenReturn(user);
 
         userService.softdeleteUser(1);
 

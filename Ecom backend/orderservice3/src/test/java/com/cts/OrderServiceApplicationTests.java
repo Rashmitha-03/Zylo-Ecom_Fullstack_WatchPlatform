@@ -595,6 +595,7 @@ public class OrderServiceApplicationTests {
         order.setOrderId(orderId);
         order.setUserId(123);
         order.setOrderAmount(500.0);
+        order.setTotalPrice(500.0);
         order.setPaymentStatus("Paid");
 
         OrderDTO expectedOrderDTO = new OrderDTO();
@@ -825,8 +826,9 @@ public class OrderServiceApplicationTests {
         when(orderRepository.findByUserId(userId)).thenReturn(List.of());
         when(cartOrderRepository.findByUserId(userId)).thenReturn(List.of());
 
-        // Act & Assert
-        assertThrows(OrderNotFoundException.class, () -> orderService.searchOrderByUserId(userId));
+        List<OrderDTO> result = orderService.searchOrderByUserId(userId);
+        assertNotNull(result);
+        assertEquals(0, result.size());
 
         // Verify interactions
         verify(orderRepository, times(1)).findByUserId(userId);
@@ -921,7 +923,7 @@ public class OrderServiceApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals("Replaced", cartOrder.getOrderStatus());
+        assertEquals("Replaced", cartOrder.getRefundStatus());
         assertEquals(orderId, result.getOrderId());
 
         // Verify interactions
@@ -1498,6 +1500,8 @@ public class OrderServiceApplicationTests {
         // Mock responses
         when(tempOrderStoreTwo.get(paymentId)).thenReturn(orderDTO);
         when(paymentFC.viewPaymentStatus(paymentId)).thenReturn(ResponseEntity.ok(expectedPaymentStatus));
+        when(productFC.getProductById(789)).thenReturn(new ProductCartDTO(789, "Book", 250.0));
+        when(productFC.getProductById(456)).thenReturn(new ProductCartDTO(456, "Pen", 100.0));
         when(cartOrderRepository.save(any(CartOrder.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(cartFC.clearCart(orderDTO.getUserId())).thenReturn(null); // ✅ Fix for methods returning a value
         doNothing().when(tempOrderStoreTwo).remove(paymentId);

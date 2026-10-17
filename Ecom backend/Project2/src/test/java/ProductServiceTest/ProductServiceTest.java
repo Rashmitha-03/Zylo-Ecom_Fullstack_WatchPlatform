@@ -108,6 +108,7 @@ class ProductServiceTest {
     @Test
     void testDeleteProduct() {
         int productId = 1;
+        when(productRepository.existsById(productId)).thenReturn(true);
         doNothing().when(productRepository).deleteById(productId);
 
         String result = productService.deleteProduct(productId);

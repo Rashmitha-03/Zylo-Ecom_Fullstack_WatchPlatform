@@ -590,6 +590,9 @@ class CartModuleApplicationTests {
 		CartItemDTO dto2 = new CartItemDTO(102, 1);
 
 		when(cartRepository.findByUserId(userId)).thenReturn(Optional.of(cart));
+		when(productFC.getProductSummaries()).thenReturn(List.of(
+				new ProductCartDTO(101, "Book", 250.0),
+				new ProductCartDTO(102, "Pen", 100.0)));
 		when(modelMapper.map(item1, CartItemDTO.class)).thenReturn(dto1);
 		when(modelMapper.map(item2, CartItemDTO.class)).thenReturn(dto2);
 
