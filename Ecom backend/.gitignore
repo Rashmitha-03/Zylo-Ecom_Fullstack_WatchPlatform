@@ -1,0 +1,28 @@
+/.metadata/
+
+# Maven and Java build output
+target/
+*.class
+*.jar
+*.war
+
+# Application logs, including rotated and compressed logs
+logs/
+*.log*
+
+# IDE-specific files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
