@@ -180,7 +180,6 @@ public class OrderServiceApplicationTests {
 
         List<AddressResponse> addressList = new ArrayList<>();
         addressList.add(addressResponse);
-
         ProductCartDTO productDTO = new ProductCartDTO();
         productDTO.setProductID(789);
         productDTO.setName("Test Product");
@@ -195,8 +194,6 @@ public class OrderServiceApplicationTests {
         when(userFC.getUserAddresses(123)).thenReturn(ResponseEntity.ok(addressList)); // ✅ Fix here
         when(productFC.getProductSummaries()).thenReturn(List.of(productDTO)); // ✅ Ensure product exists
         when(productFC.getProductStockAvailabity(789)).thenReturn(stockDTO);
-
-        // Act & Assert
         assertThrows(InsufficientStockException.class, () -> orderService.placeOrderCashOnDelivery(offlineDTO));
 
         // Verify interactions
@@ -233,8 +230,6 @@ public class OrderServiceApplicationTests {
 
         PaymentRequestDto paymentRequest = new PaymentRequestDto();
         paymentRequest.setAmount(productDTO.getPrice() * orderDTO.getQuantity());
-        paymentRequest.setUpiId(orderDTO.getUpiId());
-
         PaymentResponseDto paymentResponse = new PaymentResponseDto();
         paymentResponse.setPaymentId(1001L);
 
@@ -245,7 +240,6 @@ public class OrderServiceApplicationTests {
         when(productFC.getProductStockAvailabity(789)).thenReturn(stockDTO);
         when(paymentFC.initiatePayment(any(PaymentRequestDto.class))).thenReturn(paymentResponse);
         doNothing().when(tempOrderStore).save(eq(1001L), any(OrderDTO.class));
-
         // Act
         OrderDTO result = orderService.startOnlinePayment(orderDTO);
 
@@ -1144,8 +1138,6 @@ public class OrderServiceApplicationTests {
         cartOrder.setPaymentMethod("Cash on Delivery");
         cartOrder.setPaymentStatus("Pending");
         cartOrder.setOrderStatus("Placed");
-        when(cartItemRepository.findByOrderId(cartOrder.getOrderId())).thenReturn(cartItems);
-
         CartClientDTO expectedDTO = new CartClientDTO();
         expectedDTO.setOrderId(expectedOrderId); // ✅ Match expected order ID
         expectedDTO.setUserId(userId);
@@ -1495,13 +1487,18 @@ public class OrderServiceApplicationTests {
         cartOrder.setTotalPrice(orderDTO.getTotalPrice());
         cartOrder.setPaymentStatus(expectedPaymentStatus);
         cartOrder.setOrderStatus("Placed");
-        when(cartItemRepository.findByOrderId(cartOrder.getOrderId())).thenReturn(cartItems);
 
         // Mock responses
         when(tempOrderStoreTwo.get(paymentId)).thenReturn(orderDTO);
         when(paymentFC.viewPaymentStatus(paymentId)).thenReturn(ResponseEntity.ok(expectedPaymentStatus));
-        when(productFC.getProductById(789)).thenReturn(new ProductCartDTO(789, "Book", 250.0));
-        when(productFC.getProductById(456)).thenReturn(new ProductCartDTO(456, "Pen", 100.0));
+        ProductCartDTO product789 = new ProductCartDTO();
+        product789.setProductID(789);
+        product789.setName("Book");
+        ProductCartDTO product456 = new ProductCartDTO();
+        product456.setProductID(456);
+        product456.setName("Pen");
+        when(productFC.getProductById(789)).thenReturn(product789);
+        when(productFC.getProductById(456)).thenReturn(product456);
         when(cartOrderRepository.save(any(CartOrder.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(cartFC.clearCart(orderDTO.getUserId())).thenReturn(null); // ✅ Fix for methods returning a value
         doNothing().when(tempOrderStoreTwo).remove(paymentId);
