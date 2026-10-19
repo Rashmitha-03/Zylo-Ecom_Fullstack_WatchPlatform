@@ -1096,7 +1096,6 @@ public class OrderServiceImpl implements OrderService {
 	    }
 
 
-	    cartOrderRepository.save(order);
 	    cartFC.clearCart(orderDTO.getUserId());
 	    tempOrderStoreTwo.remove(paymentId);
 
