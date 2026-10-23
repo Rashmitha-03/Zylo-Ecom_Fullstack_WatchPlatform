@@ -116,3 +116,4 @@ Push-Location "Ecom backend\Project2"; .\mvnw.cmd test; Pop-Location
 - Backend services share the local `product` MySQL database by default.
 - Eureka registration and gateway discovery require dependent services to be reachable on their configured ports.
 - There is no root-level orchestration file; start the backend services individually as described above.
+- Frontend is built using React JS and its connected to backend via Axios 
