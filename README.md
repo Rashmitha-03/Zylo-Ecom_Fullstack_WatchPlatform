@@ -44,6 +44,7 @@ CREATE DATABASE product;
 ```
 
 Update the datasource settings in each service's `src/main/resources/application.properties` if your local MySQL credentials differ. Several services configure Hibernate with `ddl-auto=create`, which recreates their tables when they start and can erase persisted data. This is a development setup, not a production migration strategy.
+Here you can modify the db details 
 
 The gateway and some services also contain placeholder or shared JWT secrets in their properties. Replace these with a strong, consistent secret kept outside source control before using the application beyond local development. Do not expose the current configuration to an untrusted network.
 
