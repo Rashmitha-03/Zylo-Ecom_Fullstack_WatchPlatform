@@ -1,6 +1,6 @@
-# E-commerce Application
+# Zylo-Ecommerce Fullstack Application 
 
-A full-stack Zylo e-commerce application with a React storefront and a Spring Boot microservice backend. The backend uses Eureka for service discovery and a Spring Cloud Gateway as the frontend's API entry point.
+A full-stack Zylo e-commerce application with a React storefront and a Spring Boot microservice backend. The backend uses Eureka for service discovery and a Spring Cloud Gateway as the frontend's API entry point. Built using microservice Architecture.
 
 ## What Is Included
 
