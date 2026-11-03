@@ -18,10 +18,10 @@ Ecom-App-master/
 |   |-- apigateway/      Frontend-facing API gateway
 |   |-- auth/            Authentication and JWT
 |   |-- userservice/     User accounts and addresses
-|   |-- Project2/        Product catalog and feedback
+|   |-- Product/        Product catalog and feedback
 |   |-- cart/            Shopping cart
-|   |-- orderservice3/   Order workflows
-|   |-- paymentservice3/ Payment status and initiation
+|   |-- orderservice/   Order workflows
+|   |-- paymentservice/ Payment status and initiation
 |   `-- (service modules each have their own pom.xml)
 `-- README.md
 ```
